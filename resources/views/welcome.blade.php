@@ -25,7 +25,7 @@
             api realworld conduit laravel
         </h1>
         <div class="text-center">
-            view api realworld conduit laravel in <a href="">here</a>
+            view api realworld conduit laravel in <a href="/api/tags">here</a>
         </div>
     </body>
 </html>

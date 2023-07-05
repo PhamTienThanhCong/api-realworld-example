@@ -8,7 +8,6 @@ use App\Models\Follow;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Laravel\Sanctum\Sanctum;
 
 class UserController extends Controller
 {
@@ -95,14 +94,15 @@ class UserController extends Controller
     }
 
     // show
-    public function show($user)
+    public function show(Request $request, $user)
     {
-        
+
         $user = User::select('id','username', 'bio', 'image')->where('username', $user)->first();
         
-        if (Auth::check()) {
+        // check follow
+        if ($request->user) {
             // Người dùng đã xác thực
-            $auth = Auth::user();
+            $auth = $request->user;
             $check_follow = Follow::where('user_id', $auth->id)->where('following_user_id', $user->id)->first();
             if ($check_follow) {
                 $check_follow = true;

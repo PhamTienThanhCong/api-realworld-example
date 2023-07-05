@@ -5,6 +5,7 @@ use App\Http\Controllers\API\UserController;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use Laravel\Sanctum\PersonalAccessToken;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,20 +22,14 @@ use Illuminate\Support\Facades\Route;
 // default
 Route::get('tags', TagController::class . '@index');
 
-// User
-
+// Auth
 Route::post('users', UserController::class . '@store');
 Route::post('users/login', UserController::class . '@login');
+Route::get('profiles/{user}', UserController::class . '@show')->middleware('accessible');
 
-
-// auth
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('user', UserController::class . '@index');
     Route::put('user', UserController::class . '@update');
     Route::post('profiles/{user}/follow', UserController::class . '@follow');
     Route::delete('profiles/{user}/follow', UserController::class . '@unfollow');
-    Route::get('profiles/{user}', UserController::class . '@show');
 });
-
-
-Route::delete('users/{user}', UserController::class . '@destroy');

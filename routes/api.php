@@ -22,8 +22,19 @@ use Illuminate\Support\Facades\Route;
 Route::get('tags', TagController::class . '@index');
 
 // User
-Route::get('users', UserController::class . '@index');
-Route::get('users/{user}', UserController::class . '@show');
+
 Route::post('users', UserController::class . '@store');
-Route::put('users/{user}', UserController::class . '@update');
+Route::post('users/login', UserController::class . '@login');
+
+
+// auth
+Route::middleware('auth:sanctum')->group(function () {
+    Route::get('user', UserController::class . '@index');
+    Route::put('user', UserController::class . '@update');
+    Route::post('profiles/{user}/follow', UserController::class . '@follow');
+    Route::delete('profiles/{user}/follow', UserController::class . '@unfollow');
+    Route::get('profiles/{user}', UserController::class . '@show');
+});
+
+
 Route::delete('users/{user}', UserController::class . '@destroy');

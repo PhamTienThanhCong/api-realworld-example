@@ -20,7 +20,7 @@ class CreateUsersTable extends Migration
             $table->text('bio')->nullable();
             $table->string('image')->default('https://static.productionready.io/images/smiley-cyrus.jpg');
             $table->string('password');
-            $table->string('token',100)->nullable();
+            // $table->string('token',100)->nullable();
             $table->timestamps();
         });
     }

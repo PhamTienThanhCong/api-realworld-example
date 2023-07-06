@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\API\ArticleController;
 use App\Http\Controllers\API\TagController;
 use App\Http\Controllers\API\UserController;
 use App\User;
@@ -27,9 +28,20 @@ Route::post('users', UserController::class . '@store');
 Route::post('users/login', UserController::class . '@login');
 Route::get('profiles/{user}', UserController::class . '@show')->middleware('accessible');
 
+Route::get('articles', ArticleController::class . '@index');
+
+
+// protected router
 Route::middleware('auth:sanctum')->group(function () {
+    // auth
     Route::get('user', UserController::class . '@index');
     Route::put('user', UserController::class . '@update');
     Route::post('profiles/{user}/follow', UserController::class . '@follow');
     Route::delete('profiles/{user}/follow', UserController::class . '@unfollow');
+
+    // articles
+    Route::post('articles', ArticleController::class . '@store');
 });
+Route::get('articles/{article}', ArticleController::class . '@show')->middleware('accessible');;
+
+

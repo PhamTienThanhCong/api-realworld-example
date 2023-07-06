@@ -25,4 +25,18 @@ class User extends Authenticatable
         'created_at',
         'updated_at',
     ];
+
+    public function isFollowing($user_id)
+    {
+        // check in followers table
+        $follow = Follow::where('user_id', auth()->user()->id)
+            ->where('following_user_id', $user_id)
+            ->first();
+        
+        if ($follow) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

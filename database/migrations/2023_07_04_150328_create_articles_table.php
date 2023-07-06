@@ -22,7 +22,7 @@ class CreateArticlesTable extends Migration
             $table->string("title");
             $table->text("description");
             $table->text("body");
-            $table->json("tagList")->nullable();
+            $table->text("tagList")->nullable();
             $table->timestamps();
         });
     }

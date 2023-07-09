@@ -8,4 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class Favorite extends Model
 {
     use HasFactory;
+
+    protected $fillable = ['user_id', 'article_id'];
+
+    protected $timestamps = false;
 }

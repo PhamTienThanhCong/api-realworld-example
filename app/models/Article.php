@@ -35,7 +35,11 @@ class Article extends Model
     public function getAuthor($my_user_id)
     {
         $user = User::find($this->attributes['user_id']);
-        $user->isFollowing($my_user_id);
+        if ($my_user_id){
+            $user->isFollowing($my_user_id);
+        }else{
+            $user->following = false;
+        }
         // remove email
         unset($user->email);
         return $user;

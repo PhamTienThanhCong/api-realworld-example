@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\API\ArticleCommentController;
 use App\Http\Controllers\API\ArticleController;
 use App\Http\Controllers\API\TagController;
 use App\Http\Controllers\API\UserController;
@@ -31,6 +32,9 @@ Route::get('profiles/{user}', UserController::class . '@show')->middleware('acce
 Route::get('articles', ArticleController::class . '@index')->middleware('accessible');
 Route::get('articles/{article}', ArticleController::class . '@show')->middleware('accessible');;
 
+// get comments
+Route::get('articles/{slug}/comments', ArticleCommentController::class . '@index')->middleware('accessible');;
+
 // protected router
 Route::middleware('auth:sanctum')->group(function () {
     // auth
@@ -42,8 +46,14 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('articles', ArticleController::class . '@store');
     Route::put('articles/{slug}', ArticleController::class . '@update');
     Route::delete('articles/{slug}', ArticleController::class . '@destroy');
+
+    // favorite
     Route::post('articles/{slug}/favorite', ArticleController::class . '@favorite');
     Route::delete('articles/{slug}/favorite', ArticleController::class . '@unfavorite');
+
+    // comments
+    Route::post('articles/{slug}/comments', ArticleCommentController::class . '@store');
+    Route::delete('articles/{slug}/comments/{comment_id}', ArticleCommentController::class . '@destroy');
 });
 
 

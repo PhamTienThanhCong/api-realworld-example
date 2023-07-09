@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\DB;
 use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
@@ -26,17 +27,17 @@ class User extends Authenticatable
         'updated_at',
     ];
 
-    public function isFollowing($user_id)
+    public function isFollowing($my_user_id)
     {
-        // check in followers table
-        $follow = Follow::where('user_id', auth()->user()->id)
+        $user_id = $this->attributes['id'];
+        $isFollowing = DB::table('follows')
+            ->where('user_id', $my_user_id)
             ->where('following_user_id', $user_id)
-            ->first();
-        
-        if ($follow) {
-            return true;
+            ->count();
+        if ($isFollowing > 0) {
+            $this->attributes['following'] = true;
         } else {
-            return false;
+            $this->attributes['following'] = false;
         }
     }
 }

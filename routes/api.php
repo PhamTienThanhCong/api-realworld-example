@@ -28,8 +28,8 @@ Route::post('users', UserController::class . '@store');
 Route::post('users/login', UserController::class . '@login');
 Route::get('profiles/{user}', UserController::class . '@show')->middleware('accessible');
 
-Route::get('articles', ArticleController::class . '@index');
-
+Route::get('articles', ArticleController::class . '@index')->middleware('accessible');
+Route::get('articles/{article}', ArticleController::class . '@show')->middleware('accessible');;
 
 // protected router
 Route::middleware('auth:sanctum')->group(function () {
@@ -38,10 +38,12 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::put('user', UserController::class . '@update');
     Route::post('profiles/{user}/follow', UserController::class . '@follow');
     Route::delete('profiles/{user}/follow', UserController::class . '@unfollow');
-
     // articles
     Route::post('articles', ArticleController::class . '@store');
+    Route::put('articles/{slug}', ArticleController::class . '@update');
+    Route::delete('articles/{slug}', ArticleController::class . '@destroy');
+    Route::post('articles/{slug}/favorite', ArticleController::class . '@favorite');
+    Route::delete('articles/{slug}/favorite', ArticleController::class . '@unfavorite');
 });
-Route::get('articles/{article}', ArticleController::class . '@show')->middleware('accessible');;
 
 

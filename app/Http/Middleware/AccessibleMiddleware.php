@@ -9,13 +9,14 @@ use Laravel\Sanctum\PersonalAccessToken;
 
 class AccessibleMiddleware
 {
-
     public function handle($request, Closure $next)
     {
         $token = $request->header('Authorization');
 
         // remove Bearer
         $token = str_replace('Bearer ', '', $token);
+        // remove Token 
+        $token = str_replace('Token ', '', $token);
 
         if ($token) {
             $accessToken = PersonalAccessToken::findToken($token);
@@ -28,7 +29,6 @@ class AccessibleMiddleware
                 }
             }
         }
-
         return $next($request);
     }
 }
